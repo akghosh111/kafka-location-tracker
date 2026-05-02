@@ -52,11 +52,22 @@
 
         // getUsersCurrentLocation().then((p) => console.log(p));
 
+        let myCurrentLocationMarker = null;
+
         async function main() {
-            const usersLocation = await getUsersCurrentLocation();
-            L.marker([usersLocation.latitude, usersLocation.longitude])
-            .addTo(map)
-            .bindPopup("You are here");
+            setInterval(async() => {
+                // const usersLocation = await getUsersCurrentLocation();
+                const { latitude, longitude } = await getUsersCurrentLocation();
+                if(!myCurrentLocationMarker) {
+                    myCurrentLocationMarker = L.marker([latitude, longitude])
+                    .addTo(map)
+                    .bindPopup("You are here");
+                } else {
+                    myCurrentLocationMarker.setLatlng([latitude, longitude])
+                }
+            }, 10*1000)
+            
+            
         }
 
         window.addEventListener("load", main)
