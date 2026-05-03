@@ -25,6 +25,8 @@ async function main() {
             const data = JSON.parse(message.value.toString());
             console.log(`Kafka Consumer Data Received`, { data });
             await heartbeat();
+
+            io.emit("server:location:update", { id: data.id, latitude: data.latitude, longitude: data.longitude })
         }
     })
 
